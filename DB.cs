@@ -26,7 +26,7 @@ public static class DB
     public static Pizza GetById(int id)
     {
         Pizza p = null;
-        string SQL = "SELECT * FROM Pizza WHERE Id = @pId";
+        string SQL = "SELECT * FROM Pizzas WHERE Id = @pId";
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
             p = db.QueryFirstOrDefault<Pizza>(SQL, new { @pId = id });
@@ -36,12 +36,11 @@ public static class DB
 
     public static void Create(Pizza pizza)
     {
-        string SQL = "INSERT INTO Pizzas(Id, Nombre, LibreGluten, Importe, Descripcion) VALUES (@pId, @pNombre, @pLibreGluten, @pImporte, @pDescripcion)";
+        string SQL = "INSERT INTO Pizzas(Nombre, LibreGluten, Importe, Descripcion) VALUES (@pNombre, @pLibreGluten, @pImporte, @pDescripcion)";
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
             db.Execute(SQL, new
             {
-                pId = pizza.id,
                 pNombre = pizza.nombre,
                 pLibreGluten = pizza.libreGluten,
                 pImporte = pizza.importe,
@@ -51,7 +50,7 @@ public static class DB
     }
 
     public static void Update(int id, Pizza p) {
-        string SQL = "UPDATE Pizza SET (Nombre=@pNombre, LibreGluten=@pLibreGluten, Importe=@pImporte, Descripcion=@pDescripcion) WHERE Id=@pId";
+        string SQL = "UPDATE Pizzas SET (Nombre=@pNombre, LibreGluten=@pLibreGluten, Importe=@pImporte, Descripcion=@pDescripcion) WHERE Id=@pId";
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
             db.Execute(SQL, new
