@@ -1,13 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
+using Pizzas.Models;
 
 namespace ApiPizzas.Controller;
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class PizzasController : ControllerBase
-{pi
+{
     [HttpGet]
-    public IActionResult GetAll() { }
+    public IActionResult GetAll() {
+        IActionResult respuesta;
+        List<Pizza> entityList;
 
+        entityList = DB.getAll();
+        respuesta = Ok(entityList);
+        return respuesta;
+    }
+
+/*
     [HttpGet("{id}")]
     public IActionResult GetById(int id) { }
 
@@ -20,6 +29,6 @@ public class PizzasController : ControllerBase
 
     [HttpDelete("{id}")]  
     public IActionResult DeleteById(int id) { }
-
+*/
 
 }
