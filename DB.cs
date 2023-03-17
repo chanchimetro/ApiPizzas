@@ -10,7 +10,7 @@ namespace Pizzas.Models;
 
 public static class DB
 {
-    private static string _connectionString = @"Server=A-PHZ2-CIDI-024; DataBase=Pizza;Trusted_Connection=True;";
+    private static string _connectionString = @"Server=A-phz2-ami-004; DataBase=Pizza;Trusted_Connection=True;";
 
     public static List<Pizza> getAll()
     {

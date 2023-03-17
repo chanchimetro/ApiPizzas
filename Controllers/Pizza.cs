@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Pizzas.Models;
 
-namespace ApiPizzas.Controller;
+namespace Pizzas.API.Controller;
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class PizzasController : ControllerBase
 {
     [HttpGet]
