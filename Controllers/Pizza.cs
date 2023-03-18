@@ -7,7 +7,8 @@ namespace Pizzas.API.Controller;
 public class PizzasController : ControllerBase
 {
     [HttpGet]
-    public IActionResult GetAll() {
+    public IActionResult GetAll()
+    {
         IActionResult respuesta;
         List<Pizza> entityList;
 
@@ -17,54 +18,84 @@ public class PizzasController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id) {
+    public IActionResult GetById(int id)
+    {
         IActionResult respuesta;
         Pizza entity;
 
         entity = DB.GetById(id);
-        if(id<=0) respuesta = BadRequest();
-        else if(entity == null) respuesta = NotFound();
+        if (id <= 0) respuesta = BadRequest();
+        else if (entity == null) respuesta = NotFound();
         else respuesta = Ok(entity);
         return respuesta;
     }
 
     [HttpPost]
-    public IActionResult Create(Pizza pizza) {
-        DB.Create(pizza);
+    public IActionResult Create(Pizza pizza)
+    {
+        int intRowsAffected;
+        intRowsAffected = DB.Create(pizza);
         return CreatedAtAction(nameof(Create), new { id = pizza.id }, pizza);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, Pizza pizza) {
-        IActionResult respuesta;
-        Pizza p;
-        if(id!=pizza.id) respuesta = BadRequest();
-        else {
-            p = DB.GetById(id);
-            if(p == null) respuesta = NotFound();
-            else {
-                DB.Update(id, pizza);
-                respuesta = Ok(pizza);
+    public IActionResult Update(int id, Pizza pizza)
+    {
+        IActionResult respuesta = null;
+        Pizza entity;
+        int intRowsAffected;
+        if (id != pizza.id)
+        {
+            respuesta = BadRequest();
+        }
+        else
+        {
+            entity = DB.GetById(id);
+            if (entity == null)
+            {
+                respuesta = NotFound();
+            }
+            else
+            {
+                intRowsAffected = DB.Update(pizza);
+                if (intRowsAffected > 0)
+                {
+                    respuesta = Ok(pizza);
+                }
+                else
+                {
+                    respuesta = NotFound();
+                }
             }
         }
         return respuesta;
     }
 
 
-    [HttpDelete("{id}")]  
-    public IActionResult DeleteById(int id) {
-        IActionResult respuesta;
-        Pizza p;
-        if(id <= 0) respuesta = BadRequest();
-        else {
-            p = DB.GetById(id);
-            if(p == null) respuesta = NotFound();
-            else {
-                DB.DeleteById(id);
-                respuesta = Ok(p);
+    [HttpDelete("{id}")]
+    public IActionResult DeleteById(int id)
+    {
+        IActionResult respuesta = null;
+        Pizza entity;
+        int intRowsAffected;
+        entity = DB.GetById(id);
+
+        if (entity == null)
+        {
+            respuesta = NotFound();
+        }
+        else
+        {
+            intRowsAffected = DB.DeleteById(id);
+            if (intRowsAffected > 0)
+            {
+                respuesta = Ok(entity);
+            }
+            else
+            {
+                respuesta = NotFound();
             }
         }
         return respuesta;
     }
-
 }

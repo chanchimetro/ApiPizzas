@@ -10,7 +10,7 @@ namespace Pizzas.Models;
 
 public static class DB
 {
-    private static string _connectionString = @"Server=A-phz2-ami-004; DataBase=Pizza;Trusted_Connection=True;";
+    private static string _connectionString = @"Server=DESKTOP-BS3AF2L\SQLEXPRESS; DataBase=Pizza;Trusted_Connection=True;";
 
     public static List<Pizza> getAll()
     {
@@ -34,12 +34,13 @@ public static class DB
         return p;
     }
 
-    public static void Create(Pizza pizza)
+    public static int Create(Pizza pizza)
     {
+        int i;
         string SQL = "INSERT INTO Pizzas(Nombre, LibreGluten, Importe, Descripcion) VALUES (@pNombre, @pLibreGluten, @pImporte, @pDescripcion)";
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            db.Execute(SQL, new
+            i = db.Execute(SQL, new
             {
                 pNombre = pizza.nombre,
                 pLibreGluten = pizza.libreGluten,
@@ -47,31 +48,36 @@ public static class DB
                 pDescripcion = pizza.descripcion
             });
         }
+        return i;
     }
 
-    public static void Update(int id, Pizza p) {
+    public static int Update(Pizza p) {
+        int i;
         string SQL = "UPDATE Pizzas SET (Nombre=@pNombre, LibreGluten=@pLibreGluten, Importe=@pImporte, Descripcion=@pDescripcion) WHERE Id=@pId";
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            db.Execute(SQL, new
+            i=db.Execute(SQL, new
             {
-                pId = id,
+                pId = p.id,
                 pNombre = p.nombre,
                 pLibreGluten = p.libreGluten,
                 pImporte = p.importe,
                 pDescripcion = p.descripcion
             });
         }
+        return i;
     }
 
-    public static void DeleteById(int id) {
+    public static int DeleteById(int id) {
+        int i;
         string SQL = "DELETE FROM Pizzas WHERE Id=@pId";
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            db.Execute(SQL, new
+            i = db.Execute(SQL, new
             {
                 pId = id
             });
         }
+        return i;
     }
 }
